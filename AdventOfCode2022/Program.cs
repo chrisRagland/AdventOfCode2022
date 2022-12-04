@@ -6,7 +6,8 @@
 		{
 			//Day1();
 			//Day2();
-			Day3();
+			//Day3();
+			Day4();
 		}
 
 		public static void Day1()
@@ -138,6 +139,46 @@
 
 			Console.WriteLine($"Day 3 Part 1 Solution: {part1Answer}");
 			Console.WriteLine($"Day 3 Part 2 Solution: {part2Answer}");
+			Console.WriteLine();
+		}
+
+		public static void Day4()
+		{
+			var input = File.ReadAllLines(@"Day4.txt");
+
+			int part1Answer = 0;
+			int part2Answer = 0;
+
+			foreach (var item in input)
+			{
+				var split = item.Split(',').Select(x => x.Split('-').Select(y => int.Parse(y)).ToArray()).ToArray();
+				var e1l = split[0][0];
+				var e1h = split[0][1];
+				var e2l = split[1][0];
+				var e2h = split[1][1];
+
+				if (e2l >= e1l && e2h <= e1h)
+				{
+					part1Answer++;
+				}
+				else if (e1l >= e2l && e1h <= e2h)
+				{
+					part1Answer++;
+				}
+				else if ((e2l >= e1l && e2l <= e1h) || (e2h >= e1l && e2h <= e1h))
+				{
+					part2Answer++;
+				}
+				else if ((e1l >= e2l && e1l <= e2h) || (e1h >= e2l && e1h <= e2h))
+				{
+					part2Answer++;
+				}
+			}
+
+			part2Answer += part1Answer;
+
+			Console.WriteLine($"Day 4 Part 1 Solution: {part1Answer}");
+			Console.WriteLine($"Day 4 Part 2 Solution: {part2Answer}");
 			Console.WriteLine();
 		}
 	}
