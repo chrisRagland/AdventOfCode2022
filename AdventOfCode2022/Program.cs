@@ -7,7 +7,8 @@
 			//Day1();
 			//Day2();
 			//Day3();
-			Day4();
+			//Day4();
+			Day5();
 		}
 
 		public static void Day1()
@@ -179,6 +180,92 @@
 
 			Console.WriteLine($"Day 4 Part 1 Solution: {part1Answer}");
 			Console.WriteLine($"Day 4 Part 2 Solution: {part2Answer}");
+			Console.WriteLine();
+		}
+
+		public static void Day5()
+		{
+			var input = File.ReadAllLines(@"Day5.txt");
+			var size = (input[0].Length + 1) / 4;
+
+			string part1Answer = String.Empty;
+			string part2Answer = String.Empty;
+
+			var p1Stacks = new List<Stack<char>>();
+			var p2Stacks = new List<Stack<char>>();
+			var inputStacks = new List<string>();
+
+			for (int i = 0; i < size; i++)
+			{
+				p1Stacks.Add(new Stack<char>());
+				p2Stacks.Add(new Stack<char>());
+				inputStacks.Add(string.Empty);
+			}
+
+			foreach (var item in input)
+			{
+				if (item.Contains('[') || item.Contains(']'))
+				{
+					for (int i = 1; i < item.Length; i += 4)
+					{
+						if (item[i] != ' ')
+						{
+							inputStacks[i / 4] += item[i];
+						}
+					}
+				}
+				else if (string.IsNullOrEmpty(item))
+				{
+					for (int i = 0; i < size; i++)
+					{
+						var reversedInput = inputStacks[i].Reverse();
+						foreach (var c in reversedInput)
+						{
+							p1Stacks[i].Push(c);
+							p2Stacks[i].Push(c);
+						}
+					}
+				}
+				else if (item.Contains("move"))
+				{
+					var splits = item.Split(' ');
+					var count = int.Parse(splits[1]);
+					var from = int.Parse(splits[3]) - 1;
+					var to = int.Parse(splits[5]) - 1;
+
+					var p2Temp = string.Empty;
+
+					while (count > 0)
+					{
+						count--;
+
+						//part 1
+						p1Stacks[to].Push(p1Stacks[from].Pop());
+
+						//part 2
+						p2Temp += p2Stacks[from].Pop();
+					}
+
+					//more part 2
+					for (int j = p2Temp.Length; j > 0; j--)
+					{
+						p2Stacks[to].Push(p2Temp[(j - 1)]);
+					}
+				}
+			}
+
+			foreach (var item in p1Stacks)
+			{
+				part1Answer += item.Pop();
+			}
+
+			foreach (var item in p2Stacks)
+			{
+				part2Answer += item.Pop();
+			}
+
+			Console.WriteLine($"Day 5 Part 1 Solution: {part1Answer}");
+			Console.WriteLine($"Day 5 Part 2 Solution: {part2Answer}");
 			Console.WriteLine();
 		}
 	}
