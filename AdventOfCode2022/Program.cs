@@ -8,7 +8,8 @@
 			//Day2();
 			//Day3();
 			//Day4();
-			Day5();
+			//Day5();
+			Day6();
 		}
 
 		public static void Day1()
@@ -266,6 +267,41 @@
 
 			Console.WriteLine($"Day 5 Part 1 Solution: {part1Answer}");
 			Console.WriteLine($"Day 5 Part 2 Solution: {part2Answer}");
+			Console.WriteLine();
+		}
+
+		public static void Day6()
+		{
+			var input = File.ReadAllLines(@"Day6.txt").First();
+
+			int p1Width = 4;
+			int p2Width = 14;
+
+			var part1Answer = 0;
+			var part2Answer = 0;
+
+			for (int i = 0; i < input.Length; i++)
+			{
+				var temp = input.Substring(i, p1Width);
+				if (temp.GroupBy(x => x).Count() == p1Width)
+				{
+					part1Answer = i + p1Width;
+					break;
+				}
+			}
+
+			for (int i = 0; i < input.Length; i++)
+			{
+				var temp = input.Substring(i, p2Width);
+				if (temp.GroupBy(x => x).Count() == p2Width)
+				{
+					part2Answer = i + p2Width;
+					break;
+				}
+			}
+
+			Console.WriteLine($"Day 6 Part 1 Solution: {part1Answer}");
+			Console.WriteLine($"Day 6 Part 2 Solution: {part2Answer}");
 			Console.WriteLine();
 		}
 	}
