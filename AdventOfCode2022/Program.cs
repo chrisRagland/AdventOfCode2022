@@ -9,7 +9,8 @@
 			//Day3();
 			//Day4();
 			//Day5();
-			Day6();
+			//Day6();
+			Day7();
 		}
 
 		public static void Day1()
@@ -303,6 +304,12 @@
 			Console.WriteLine($"Day 6 Part 1 Solution: {part1Answer}");
 			Console.WriteLine($"Day 6 Part 2 Solution: {part2Answer}");
 			Console.WriteLine();
+		}
+
+		public static void Day7()
+		{
+			var daySeven = new d7(File.ReadAllLines(@"Day7.txt"));
+			daySeven.Solve();
 		}
 	}
 }
