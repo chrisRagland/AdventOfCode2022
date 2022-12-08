@@ -10,7 +10,8 @@
 			//Day4();
 			//Day5();
 			//Day6();
-			Day7();
+			//Day7();
+			Day8();
 		}
 
 		public static void Day1()
@@ -310,6 +311,178 @@
 		{
 			var daySeven = new d7(File.ReadAllLines(@"Day7.txt"));
 			daySeven.Solve();
+		}
+
+		public static void Day8()
+		{
+			var input = File.ReadAllLines(@"Day8.txt");
+
+			var part1Answer = 0;
+			var part2Answer = 0;
+
+			int width = input[0].Length;
+			int height = input.Length;
+
+			var grid = new int[height, width];
+
+			for (int i = 0; i < height; i++)
+				for (int j = 0; j < width; j++)
+					grid[i, j] = input[i][j] - 48;
+
+			//Edge Trees
+			part1Answer += (2 * height) + ((2 * width) - 4);
+
+			for (int i = 1; i < height - 1; i++)
+			{
+				for (int j = 1; j < width - 1; j++)
+				{
+					//Check Left
+					bool visible = true;
+					int tempIndex = j - 1;
+					while (tempIndex >= 0 && visible)
+					{
+						if (grid[i, j] > grid[i, tempIndex])
+							tempIndex--;
+						else
+							visible = false;
+					}
+					if (visible)
+					{
+						part1Answer++;
+						continue;
+					}
+
+					//Check Right
+					visible = true;
+					tempIndex = j + 1;
+					while (tempIndex < width && visible)
+					{
+						if (grid[i, j] > grid[i, tempIndex])
+							tempIndex++;
+						else
+							visible = false;
+					}
+					if (visible)
+					{
+						part1Answer++;
+						continue;
+					}
+
+					//Check Up
+					visible = true;
+					tempIndex = i - 1;
+					while (tempIndex >= 0 && visible)
+					{
+						if (grid[i, j] > grid[tempIndex, j])
+							tempIndex--;
+						else
+							visible = false;
+					}
+					if (visible)
+					{
+						part1Answer++;
+						continue;
+					}
+
+					//Check Down
+					visible = true;
+					tempIndex = i + 1;
+					while (tempIndex < height && visible)
+					{
+						if (grid[i, j] > grid[tempIndex, j])
+							tempIndex++;
+						else
+							visible = false;
+					}
+					if (visible)
+					{
+						part1Answer++;
+						continue;
+					}
+				}
+			}
+
+			for (int i = 1; i < height - 1; i++)
+			{
+				for (int j = 1; j < width - 1; j++)
+				{
+					int leftScenic = 1;
+					int tempIndex = j - 1;
+					bool tallerSeen = false;
+					while (tempIndex >= 0 && !tallerSeen)
+					{
+						if (grid[i, j] > grid[i, tempIndex])
+						{
+							tempIndex--;
+							leftScenic++;
+						}
+						else
+							tallerSeen = true;
+					}
+					//Don't double count since we reached the edge
+					if (!tallerSeen)
+						leftScenic--;
+
+					int rightScenic = 1;
+					tempIndex = j + 1;
+					tallerSeen = false;
+					while (tempIndex < width && !tallerSeen)
+					{
+						if (grid[i, j] > grid[i, tempIndex])
+						{
+							tempIndex++;
+							rightScenic++;
+						}
+						else
+							tallerSeen = true;
+					}
+					if (!tallerSeen)
+						rightScenic--;
+
+					int upScenic = 1;
+					tempIndex = i - 1;
+					tallerSeen = false;
+					while (tempIndex >= 0 && !tallerSeen)
+					{
+						if (grid[i, j] > grid[tempIndex, j])
+						{
+							tempIndex--;
+							upScenic++;
+						}
+						else
+							tallerSeen = true;
+					}
+					if (!tallerSeen)
+						upScenic--;
+
+					int downScenic = 1;
+					tempIndex = i + 1;
+					tallerSeen = false;
+					while (tempIndex < height && !tallerSeen)
+					{
+						if (grid[i, j] > grid[tempIndex, j])
+						{
+							tempIndex++;
+							downScenic++;
+						}
+						else
+							tallerSeen = true;
+					}
+					if (!tallerSeen)
+						downScenic--;
+
+					int scenicScore = leftScenic * rightScenic * upScenic * downScenic;
+
+					if (scenicScore > part2Answer)
+					{
+						part2Answer = scenicScore;
+					}
+				}
+			}
+
+			Console.WriteLine($"Day 8 Part 1 Solution: {part1Answer}");
+			Console.WriteLine($"Day 8 Part 2 Solution: {part2Answer}");
+			Console.WriteLine();
 		}
 	}
 }
