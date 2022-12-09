@@ -493,70 +493,16 @@ namespace AdventOfCode2022
 		{
 			var input = File.ReadAllLines(@"Day09.txt");
 
-			var part1Answer = 0;
-			var part2Answer = 0;
-
-			int size = 1000;
-
-			bool[,] visited = new bool[size, size];
-			Point head = new Point(size / 2, size / 2);
-			Point tail = new Point(size / 2, size / 2);
-			visited[tail.X, tail.Y] = true;
-
-			foreach (var item in input)
-			{
-				var splitInput = item.Split(' ');
-				int dist = int.Parse(splitInput[1]);
-				for (int i = 0; i < dist; i++)
-				{
-					if (splitInput[0] == "R")
-						head.X++;
-					else if (splitInput[0] == "L")
-						head.X--;
-					else if (splitInput[0] == "U")
-						head.Y++;
-					else if (splitInput[0] == "D")
-						head.Y--;
-
-					int xDiff = head.X - tail.X;
-					int yDiff = head.Y - tail.Y;
-
-					if (xDiff > 1 || xDiff < -1)
-					{
-						tail.X += 1 * Math.Sign(xDiff);
-
-						if (yDiff > 0)
-							tail.Y++;
-						else if (yDiff < 0)
-							tail.Y--;
-					}
-					else if (yDiff > 1 || yDiff < -1)
-					{
-						tail.Y += 1 * Math.Sign(yDiff);
-
-						if (xDiff > 0)
-							tail.X++;
-						else if (xDiff < 0)
-							tail.X--;
-					}
-
-					visited[tail.X, tail.Y] = true;
-				}
-			}
-
-			for (int i = 0; i < 1000; i++)
-				for (int j = 0; j < 1000; j++)
-					if (visited[i, j])
-					{
-						part1Answer++;
-						visited[i, j] = false;
-					}
-
-			//Part 2
 			int knotCount = 10;
-			var pointsPartTwo = new Point[knotCount];
+			var knots = new Point[knotCount];
 			for (int i = 0; i < 10; i++)
-				pointsPartTwo[i] = new Point(size / 2, size / 2);
+				knots[i] = new Point(0, 0);
+
+			var part1Knot = 1;
+			var part2Knot = 9;
+
+			var part1Points = new List<Point>() { knots[part1Knot] };
+			var part2Points = new List<Point>() { knots[part2Knot] };
 
 			foreach (var item in input)
 			{
@@ -564,53 +510,48 @@ namespace AdventOfCode2022
 				int dist = int.Parse(splitInput[1]);
 				for (int i = 0; i < dist; i++)
 				{
-					//Move Head
 					if (splitInput[0] == "R")
-						pointsPartTwo[0].X++;
+						knots[0].X++;
 					else if (splitInput[0] == "L")
-						pointsPartTwo[0].X--;
+						knots[0].X--;
 					else if (splitInput[0] == "U")
-						pointsPartTwo[0].Y++;
+						knots[0].Y++;
 					else if (splitInput[0] == "D")
-						pointsPartTwo[0].Y--;
+						knots[0].Y--;
 
 					//Move Knots
-					for (int j = 1; j < pointsPartTwo.Length; j++)
+					for (int j = 1; j < knots.Length; j++)
 					{
-						int xDiff = pointsPartTwo[j - 1].X - pointsPartTwo[j].X;
-						int yDiff = pointsPartTwo[j - 1].Y - pointsPartTwo[j].Y;
+						int xDiff = knots[j - 1].X - knots[j].X;
+						int yDiff = knots[j - 1].Y - knots[j].Y;
 
 						if (xDiff > 1 || xDiff < -1)
 						{
-							pointsPartTwo[j].X += 1 * Math.Sign(xDiff);
+							knots[j].X += 1 * Math.Sign(xDiff);
 
 							if (yDiff > 0)
-								pointsPartTwo[j].Y++;
+								knots[j].Y++;
 							else if (yDiff < 0)
-								pointsPartTwo[j].Y--;
+								knots[j].Y--;
 						}
 						else if (yDiff > 1 || yDiff < -1)
 						{
-							pointsPartTwo[j].Y += 1 * Math.Sign(yDiff);
+							knots[j].Y += 1 * Math.Sign(yDiff);
 
 							if (xDiff > 0)
-								pointsPartTwo[j].X++;
+								knots[j].X++;
 							else if (xDiff < 0)
-								pointsPartTwo[j].X--;
+								knots[j].X--;
 						}
 					}
 
-					visited[pointsPartTwo[pointsPartTwo.Length - 1].X, pointsPartTwo[pointsPartTwo.Length - 1].Y] = true;
+					part1Points.Add(knots[part1Knot]);
+					part2Points.Add(knots[part2Knot]);
 				}
 			}
 
-			for (int i = 0; i < 1000; i++)
-				for (int j = 0; j < 1000; j++)
-					if (visited[i, j])
-						part2Answer++;
-
-			Console.WriteLine($"Day 9 Part 1 Solution: {part1Answer}");
-			Console.WriteLine($"Day 9 Part 2 Solution: {part2Answer}");
+			Console.WriteLine($"Day 9 Part 1 Solution: {part1Points.GroupBy(g => new { g.X, g.Y }).Select(x => x.First()).Count()}");
+			Console.WriteLine($"Day 9 Part 2 Solution: {part2Points.GroupBy(g => new { g.X, g.Y }).Select(x => x.First()).Count()}");
 			Console.WriteLine();
 		}
 	}
