@@ -1,4 +1,7 @@
-﻿namespace AdventOfCode2022
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
+
+namespace AdventOfCode2022
 {
 	internal class Program
 	{
@@ -11,7 +14,8 @@
 			//Day5();
 			//Day6();
 			//Day7();
-			Day8();
+			//Day8();
+			Day9();
 		}
 
 		public static void Day1()
@@ -482,6 +486,131 @@
 
 			Console.WriteLine($"Day 8 Part 1 Solution: {part1Answer}");
 			Console.WriteLine($"Day 8 Part 2 Solution: {part2Answer}");
+			Console.WriteLine();
+		}
+
+		public static void Day9()
+		{
+			var input = File.ReadAllLines(@"Day09.txt");
+
+			var part1Answer = 0;
+			var part2Answer = 0;
+
+			int size = 1000;
+
+			bool[,] visited = new bool[size, size];
+			Point head = new Point(size / 2, size / 2);
+			Point tail = new Point(size / 2, size / 2);
+			visited[tail.X, tail.Y] = true;
+
+			foreach (var item in input)
+			{
+				var splitInput = item.Split(' ');
+				int dist = int.Parse(splitInput[1]);
+				for (int i = 0; i < dist; i++)
+				{
+					if (splitInput[0] == "R")
+						head.X++;
+					else if (splitInput[0] == "L")
+						head.X--;
+					else if (splitInput[0] == "U")
+						head.Y++;
+					else if (splitInput[0] == "D")
+						head.Y--;
+
+					int xDiff = head.X - tail.X;
+					int yDiff = head.Y - tail.Y;
+
+					if (xDiff > 1 || xDiff < -1)
+					{
+						tail.X += 1 * Math.Sign(xDiff);
+
+						if (yDiff > 0)
+							tail.Y++;
+						else if (yDiff < 0)
+							tail.Y--;
+					}
+					else if (yDiff > 1 || yDiff < -1)
+					{
+						tail.Y += 1 * Math.Sign(yDiff);
+
+						if (xDiff > 0)
+							tail.X++;
+						else if (xDiff < 0)
+							tail.X--;
+					}
+
+					visited[tail.X, tail.Y] = true;
+				}
+			}
+
+			for (int i = 0; i < 1000; i++)
+				for (int j = 0; j < 1000; j++)
+					if (visited[i, j])
+					{
+						part1Answer++;
+						visited[i, j] = false;
+					}
+
+			//Part 2
+			int knotCount = 10;
+			var pointsPartTwo = new Point[knotCount];
+			for (int i = 0; i < 10; i++)
+				pointsPartTwo[i] = new Point(size / 2, size / 2);
+
+			foreach (var item in input)
+			{
+				var splitInput = item.Split(' ');
+				int dist = int.Parse(splitInput[1]);
+				for (int i = 0; i < dist; i++)
+				{
+					//Move Head
+					if (splitInput[0] == "R")
+						pointsPartTwo[0].X++;
+					else if (splitInput[0] == "L")
+						pointsPartTwo[0].X--;
+					else if (splitInput[0] == "U")
+						pointsPartTwo[0].Y++;
+					else if (splitInput[0] == "D")
+						pointsPartTwo[0].Y--;
+
+					//Move Knots
+					for (int j = 1; j < pointsPartTwo.Length; j++)
+					{
+						int xDiff = pointsPartTwo[j - 1].X - pointsPartTwo[j].X;
+						int yDiff = pointsPartTwo[j - 1].Y - pointsPartTwo[j].Y;
+
+						if (xDiff > 1 || xDiff < -1)
+						{
+							pointsPartTwo[j].X += 1 * Math.Sign(xDiff);
+
+							if (yDiff > 0)
+								pointsPartTwo[j].Y++;
+							else if (yDiff < 0)
+								pointsPartTwo[j].Y--;
+						}
+						else if (yDiff > 1 || yDiff < -1)
+						{
+							pointsPartTwo[j].Y += 1 * Math.Sign(yDiff);
+
+							if (xDiff > 0)
+								pointsPartTwo[j].X++;
+							else if (xDiff < 0)
+								pointsPartTwo[j].X--;
+						}
+					}
+
+					visited[pointsPartTwo[pointsPartTwo.Length - 1].X, pointsPartTwo[pointsPartTwo.Length - 1].Y] = true;
+				}
+			}
+
+			for (int i = 0; i < 1000; i++)
+				for (int j = 0; j < 1000; j++)
+					if (visited[i, j])
+						part2Answer++;
+
+			Console.WriteLine($"Day 9 Part 1 Solution: {part1Answer}");
+			Console.WriteLine($"Day 9 Part 2 Solution: {part2Answer}");
 			Console.WriteLine();
 		}
 	}
