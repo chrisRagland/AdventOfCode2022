@@ -20,6 +20,12 @@
 					x += addXValue;
 				}
 			}
+
+			Console.WriteLine($"Day 10 Part 1 Solution: {Part1Answer}");
+			Console.WriteLine($"Day 10 Part 2 Solution:");
+			Console.Write(Part2Answer.ToString());
+			Console.WriteLine();
+
 		}
 
 		private void ProcessCycle()

@@ -6,21 +6,21 @@ namespace AdventOfCode2022
 	{
 		static void Main(string[] args)
 		{
-			//Day1();
-			//Day2();
-			//Day3();
-			//Day4();
-			//Day5();
-			//Day6();
-			//Day7();
-			//Day8();
-			//Day9();
+			Day1();
+			Day2();
+			Day3();
+			Day4();
+			Day5();
+			Day6();
+			Day7();
+			Day8();
+			Day9();
 			Day10();
 		}
 
 		public static void Day1()
 		{
-			var day1Input = File.ReadAllLines(@"Day1.txt");
+			var day1Input = File.ReadAllLines(@"Day01.txt");
 			var values = new List<int>();
 
 			int currentValue = 0;
@@ -45,7 +45,7 @@ namespace AdventOfCode2022
 
 		public static void Day2()
 		{
-			var input = File.ReadAllLines(@"Day2.txt").Select(x => x.Split(' '));
+			var input = File.ReadAllLines(@"Day02.txt").Select(x => x.Split(' '));
 
 			int part1Answer = 0;
 			int part2Answer = 0;
@@ -117,7 +117,7 @@ namespace AdventOfCode2022
 
 		public static void Day3()
 		{
-			var input = File.ReadAllLines(@"Day3.txt");
+			var input = File.ReadAllLines(@"Day03.txt");
 
 			int part1Answer = 0;
 			int part2Answer = 0;
@@ -152,7 +152,7 @@ namespace AdventOfCode2022
 
 		public static void Day4()
 		{
-			var input = File.ReadAllLines(@"Day4.txt");
+			var input = File.ReadAllLines(@"Day04.txt");
 
 			int part1Answer = 0;
 			int part2Answer = 0;
@@ -192,7 +192,7 @@ namespace AdventOfCode2022
 
 		public static void Day5()
 		{
-			var input = File.ReadAllLines(@"Day5.txt");
+			var input = File.ReadAllLines(@"Day05.txt");
 			var size = (input[0].Length + 1) / 4;
 
 			string part1Answer = String.Empty;
@@ -278,7 +278,7 @@ namespace AdventOfCode2022
 
 		public static void Day6()
 		{
-			var input = File.ReadAllLines(@"Day6.txt").First();
+			var input = File.ReadAllLines(@"Day06.txt").First();
 
 			int p1Width = 4;
 			int p2Width = 14;
@@ -313,13 +313,13 @@ namespace AdventOfCode2022
 
 		public static void Day7()
 		{
-			var daySeven = new d7(File.ReadAllLines(@"Day7.txt"));
+			var daySeven = new d7(File.ReadAllLines(@"Day07.txt"));
 			daySeven.Solve();
 		}
 
 		public static void Day8()
 		{
-			var input = File.ReadAllLines(@"Day8.txt");
+			var input = File.ReadAllLines(@"Day08.txt");
 
 			var part1Answer = 0;
 			var part2Answer = 0;
@@ -561,11 +561,6 @@ namespace AdventOfCode2022
 
 			var Day10 = new d10() { Input = input };
 			Day10.Solve();
-
-			Console.WriteLine($"Day 10 Part 1 Solution: {Day10.Part1Answer}");
-			Console.WriteLine($"Day 10 Part 2 Solution:");
-			Console.Write(Day10.Part2Answer.ToString());
-			Console.WriteLine();
 		}
 	}
 }
