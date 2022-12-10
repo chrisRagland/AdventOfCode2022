@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace AdventOfCode2022
 {
@@ -15,7 +14,8 @@ namespace AdventOfCode2022
 			//Day6();
 			//Day7();
 			//Day8();
-			Day9();
+			//Day9();
+			Day10();
 		}
 
 		public static void Day1()
@@ -552,6 +552,19 @@ namespace AdventOfCode2022
 
 			Console.WriteLine($"Day 9 Part 1 Solution: {part1Points.GroupBy(g => new { g.X, g.Y }).Select(x => x.First()).Count()}");
 			Console.WriteLine($"Day 9 Part 2 Solution: {part2Points.GroupBy(g => new { g.X, g.Y }).Select(x => x.First()).Count()}");
+			Console.WriteLine();
+		}
+
+		public static void Day10()
+		{
+			var input = File.ReadAllLines(@"Day10.txt");
+
+			var Day10 = new d10() { Input = input };
+			Day10.Solve();
+
+			Console.WriteLine($"Day 10 Part 1 Solution: {Day10.Part1Answer}");
+			Console.WriteLine($"Day 10 Part 2 Solution:");
+			Console.Write(Day10.Part2Answer.ToString());
 			Console.WriteLine();
 		}
 	}
