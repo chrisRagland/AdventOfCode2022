@@ -6,16 +6,17 @@ namespace AdventOfCode2022
 	{
 		static void Main(string[] args)
 		{
-			Day1();
-			Day2();
-			Day3();
-			Day4();
-			Day5();
-			Day6();
-			Day7();
-			Day8();
-			Day9();
-			Day10();
+			//Day1();
+			//Day2();
+			//Day3();
+			//Day4();
+			//Day5();
+			//Day6();
+			//Day7();
+			//Day8();
+			//Day9();
+			//Day10();
+			Day11();
 		}
 
 		public static void Day1()
@@ -561,6 +562,14 @@ namespace AdventOfCode2022
 
 			var Day10 = new d10() { Input = input };
 			Day10.Solve();
+		}
+
+		public static void Day11()
+		{
+			var input = File.ReadAllText(@"Day11.txt");
+
+			var Day11 = new d11() { Input = input };
+			Day11.Solve();
 		}
 	}
 }
