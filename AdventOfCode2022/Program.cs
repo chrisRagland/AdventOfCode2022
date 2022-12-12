@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Net.Mime;
 
 namespace AdventOfCode2022
 {
@@ -16,7 +17,8 @@ namespace AdventOfCode2022
 			//Day8();
 			//Day9();
 			//Day10();
-			Day11();
+			//Day11();
+			Day12();
 		}
 
 		public static void Day1()
@@ -570,6 +572,14 @@ namespace AdventOfCode2022
 
 			var Day11 = new d11() { Input = input };
 			Day11.Solve();
+		}
+
+		public static void Day12()
+		{
+			var input = File.ReadAllLines(@"Day12.txt");
+
+			var Day12 = new d12() { Input = input };
+			Day12.Solve();
 		}
 	}
 }
