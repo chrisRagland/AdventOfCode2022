@@ -31,8 +31,8 @@ namespace AdventOfCode2022
 			Process(Part.P1);
 			Process(Part.P2);
 
-			Console.WriteLine($"Day 11 Part 1 Solution: {Part1Answer}");
-			Console.WriteLine($"Day 11 Part 2 Solution: {Part2Answer}");
+			Console.WriteLine($"Day 12 Part 1 Solution: {Part1Answer}");
+			Console.WriteLine($"Day 12 Part 2 Solution: {Part2Answer}");
 			Console.WriteLine();
 		}
 
