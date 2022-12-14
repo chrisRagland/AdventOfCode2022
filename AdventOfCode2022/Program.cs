@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 
 namespace AdventOfCode2022
 {
@@ -18,7 +19,8 @@ namespace AdventOfCode2022
 			//Day10();
 			//Day11();
 			//Day12();
-			Day13();
+			//Day13();
+			Day14();
 		}
 
 		public static void Day1()
@@ -588,6 +590,104 @@ namespace AdventOfCode2022
 
 			var Day13 = new d13() { Input = input };
 			Day13.Solve();
+		}
+
+		public static void Day14()
+		{
+			var input = File.ReadAllLines(@"Day14.txt");
+
+			var part1Answer = 0;
+			var part2Answer = 0;
+
+			int size = 1000;
+
+			var sandStart = new Point(500, 0);
+			int[,] grid = new int[size, size];
+			var lowestPoint = 0;
+
+			foreach (var item in input)
+			{
+				var splitItems = item.Split(" -> ").Select(x => x.Split(',')).Select(x => new Point(int.Parse(x[0]), int.Parse(x[1]))).ToArray();
+
+				for (int i = 0; i < splitItems.Length - 1; i++)
+				{
+					var a = splitItems[i];
+					var b = splitItems[i + 1];
+
+					if (a.X == b.X)
+					{
+						int maxY = Math.Max(a.Y, b.Y);
+						int minY = Math.Min(a.Y, b.Y);
+						for (int j = minY; j <= maxY; j++)
+							grid[a.X, j] = -1;
+
+						if (maxY > lowestPoint)
+							lowestPoint = maxY;
+					}
+					else
+					{
+						int maxX = Math.Max(a.X, b.X);
+						int minX = Math.Min(a.X, b.X);
+						for (int j = minX; j <= maxX; j++)
+							grid[j, a.Y] = -1;
+
+						if (a.Y > lowestPoint)
+							lowestPoint = a.Y;
+					}
+				}
+			}
+
+			for (int i = 0; i < size; i++)
+			{
+				grid[i, lowestPoint + 2] = -1;
+			}
+
+			int count = 0;
+			while (true)
+			{
+				if (grid[sandStart.X, sandStart.Y] == 1)
+				{
+					part2Answer = count;
+					break;
+				}
+				else
+				{
+					var currentSandPoint = new Point(sandStart.X, sandStart.Y);
+
+					while (true)
+					{
+						currentSandPoint.Y++;
+
+						if (currentSandPoint.Y > lowestPoint && part1Answer == 0)
+						{
+							part1Answer = count;
+							break;
+						}
+
+						if (grid[currentSandPoint.X, currentSandPoint.Y] == 0)
+							continue;
+
+						currentSandPoint.X--;
+						if (grid[currentSandPoint.X, currentSandPoint.Y] == 0)
+							continue;
+
+						currentSandPoint.X += 2;
+						if (grid[currentSandPoint.X, currentSandPoint.Y] == 0)
+							continue;
+
+						//Settled, reset
+						currentSandPoint.X--;
+						currentSandPoint.Y--;
+						count++;
+						grid[currentSandPoint.X, currentSandPoint.Y] = 1;
+						break;
+					}
+				}
+			}
+
+			Console.WriteLine($"Day 14 Part 1 Solution: {part1Answer}");
+			Console.WriteLine($"Day 14 Part 2 Solution: {part2Answer}");
+			Console.WriteLine();
 		}
 	}
 }
